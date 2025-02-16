@@ -15,6 +15,7 @@ def sanitize_name(name: str) -> str:
 load_data = True
 if load_data:
     df = pd.read_csv('./example_preferences - Sheet1.tsv', delimiter='\t')
+    df = pd.read_csv('/home/jakub/Downloads/Coding Week 2025 - Code Review.tsv', delimiter='\t')
     df['I want to review this!'] = df['I want to review this!'].fillna('').astype(str)
     names = sorted([sanitize_name(name) for name in df['Name']])
     n = len(names)
