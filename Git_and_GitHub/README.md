@@ -121,8 +121,8 @@ git config --global user.email "your_email@example.com"
 - You may not be familiar with the text editor that automatically opens after the ``git commit``
   command. Depending on your setup, the text editor may be
   usually [Vim](https://en.wikipedia.org/wiki/Vim_(text_editor)) or [Nano](https://en.wikipedia.org/wiki/GNU_nano).
-  (I strongly suggest using Nano rather than Vim as you default editor, unless you know you are doing. The Vim is not
-  particularly a beginner-friendly editor.)
+  (I strongly suggest using Nano rather than Vim as you default editor, unless you know you are doing. The Vim is not a
+  particularly beginner-friendly editor.)
   If you need to close these editors:
     - Vim: Press ESC, then type :wq (write & quit) and press Enter.
     - Nano: Press CTRL + X, then Y to save, and Enter to confirm.
@@ -138,3 +138,40 @@ git push
 Git may ask you for you credentials, in which case refer to the section *Access token* above.
 
 If everything went well, you should now see your newly committed files in your repository on GitHub!
+
+## Basic Workflow
+
+The basic workflow of using git may consist of modifying, adding or deleting files from the repository,
+and synchronizing these changes between multiple locations (e.g. your workstation, the GitHub cloud repository and your
+laptop).
+
+- As discussed above, files are not tracked by git until you add them for the first time by ```git add``` command.
+- Creating a git commit (a snapshot of the current version of your code) is actually a two-stage process:
+    - At first, you need
+      to run ```git add```for the files that you want to commit. This applies also to the files that you already added
+      for the first time, but you
+      did some changes in them, and you want to commit these changes.
+    - After using ```git add``` on new and/or modified files, you create the commit by ```git commit```.
+    - This separation between *adding* and *committing* changes allows extra flexibility (you may do large change to
+      your code, but then create multiple commits, each capturing some meaningful block of changes.) However, to save
+      you
+      some time, you may use the ```-a``` argument in ```git commit -a```, which will automatically add changes in all
+      files
+      that are already tracked by git.
+- To delete a file, you may use ```git rm file-name```. If you would just delete the file on your computer, you would
+  need to also use ```git add```
+  or ```git commit -a ```, otherwise the deletion of the file will not be committed to git (the same way that modyfying
+  a file
+  is not recorded until you run ```git add file-name```). The ```git rm file-name``` command will both delete the file
+  on your
+  filesystem and also remove the file from git.
+- You may stop tracking a previously added file by ```git rm --cached file-name```.
+  This way, the file will not be deleted on your computer.
+- The difference between the current version of your code and the last commit may be displayed by the
+  ```git diff``` command.
+- Running ```git push``` command will propagate you local changes to remote repository on cloud. You can clone the
+  repository to multiple places (e.g. if you want to home-office on your laptop)
+  by running the ```git clone link-to-repository``` for each of them.
+- To synchronize you local repository with the one on GitHub, run ```git pull``` command.
+    - You may also use ```git fetch``` to pull the information about changes made in the remote repository, without
+      applying them to you local repository.
