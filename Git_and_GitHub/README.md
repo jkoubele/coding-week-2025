@@ -24,30 +24,117 @@ If you do not already have a GitHub account, you can create one here: https://gi
 - Verify your email and complete the setup.
 
 ### Access token
+
 Later on, when you will try to modify your GitHub repository e.g. by ```git push``` command,
-you will be asked for your credentials. If you fill in your username and password, you will encounter 
+you will be asked for your credentials. If you fill in your username and password, you will encounter
 the following error:
+
 ```
 remote: Support for password authentication was removed on August 13, 2021.
 remote: Please see https://docs.github.com/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls for information on currently recommended modes of authentication.
 fatal: Authentication failed...
 ```
+
 The simplest way to login is to get your personal access token (which will de-facto work as a password).
 On GitHub page, go to *your account* → *Settings* → *Developer Settings* →
 *Personal access tokens* → *Tokens (classic)*.
 
-There, you can generate new classic token. If you set the token to never expiry and 
-allow it to perform every action, it will behave as a password. 
+There, you can generate new classic token. If you set the token to never expiry and
+allow it to perform every action, it will behave as a password.
 
 You can store your credentials on your computer, so you will not be asked for them again:
+
 ```commandline
 git config credential.helper store
 ```
-This saves your credentials in plaintext in *~/.git-credentials*. 
-For more secure approaches, you can use [ssh authentication](https://docs.github.com/en/authentication/connecting-to-github-with-ssh).
 
+This saves your credentials in plaintext in *~/.git-credentials*.
+For more secure approaches, you can
+use [ssh authentication](https://docs.github.com/en/authentication/connecting-to-github-with-ssh).
 
+## Creating a Repository
 
+- Log into your GitHub account.
+- Click on the "+" in the top right corner and select *New repository*.
+- Fill in the name and other options in the dialog. You can also create an initial README.md file.
 
-git config --global user.email "you@example.com"
-git config --global user.name "Your Name"
+You can then clone this repository to your local computer. Click on the *code* button and save the
+repository link to clipboard (or the link in *Quick setup* section for empty repository). On your computer,
+execute
+
+```
+git clone link-that-you-just-copied
+```
+
+This will create folder with your repository at your current location. Navigate into that folder.
+(Following git commands needs to be executed within that folder, otherwise you will get an error  *fatal: not a git
+repository*.)
+
+### Adding files to repository
+
+Git will track only files that you explicitly add to the git repository by command
+
+```commandline
+git add file_name
+```
+
+You can also add multiple files at once, e.g. all R scripts by ```git add *.R``` or all files in the folder
+by ```git add .```.
+
+If you prefer adding all files at once, you may find it useful to set up ```.gitignore``` file,
+where you specify files that are not added by default -
+e.g. you may want to ignore all *.rds* files
+(see a [tutorial](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files) for setting-up
+*.gitignore*).
+
+After you added some files, you may want to check status of the repository by
+
+```commandline
+git status
+```
+
+The command will print some basic info about your git repository; you should see the files you added as *Changes to be
+committed*.
+
+Now, you may create your first commit - a snapshot of the repository, with the files that you just added.
+To do that, run
+
+```commandline
+git commit
+```
+
+This will open command line text editor, where you need to write a commit message
+(a description of the changes that you did). You can also specify the commit message
+by using the argument ```-m```, e.g.``` git commit -m "Some informative description"```.
+
+You may encounter two caveats at this step:
+
+- If you didn't setup up config with your username before, git will ask you for your username. To avoid typing username
+  every time you commit
+  some changes to git, you may set it up (globally on your computer) by
+
+```
+git config --global user.name "your_username"
+git config --global user.email "your_email@example.com"
+```
+
+- You may not be familiar with the text editor that automatically opens after the ``git commit``
+  command. Depending on your setup, the text editor may be
+  usually [Vim](https://en.wikipedia.org/wiki/Vim_(text_editor)) or [Nano](https://en.wikipedia.org/wiki/GNU_nano).
+  (I strongly suggest using Nano rather than Vim as you default editor, unless you know you are doing. The Vim is not
+  particularly a beginner-friendly editor.)
+  If you need to close these editors:
+    - Vim: Press ESC, then type :wq (write & quit) and press Enter.
+    - Nano: Press CTRL + X, then Y to save, and Enter to confirm.
+
+After you successfully commit your changes, it's a time to propagate these changes also to the remote repository on
+GitHub.
+To do that, run
+
+```
+git push
+```
+
+Git may ask you for you credentials, in which case refer to the section *Access token* above.
+
+If everything went well, you should now see your newly committed files in your repository on GitHub!

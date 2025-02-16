@@ -17,7 +17,7 @@ people_without_project: list[str] = []
 load_data = True
 if load_data:
     df = pd.read_csv('./example_preferences - Sheet1.tsv', delimiter='\t')
-    people_without_project.extend(['Hans', 'David'])
+    # people_without_project.extend(['Hans', 'David'])
     # df = pd.read_csv('/home/jakub/Downloads/Coding Week 2025 - Code Review.tsv', delimiter='\t')
     df['I want to review this!'] = df['I want to review this!'].fillna('').astype(str)
     names = sorted([sanitize_name(name) for name in df['Name']])
@@ -49,7 +49,7 @@ for i in range(n):
     prob += edges[i][i] == 0  # no self-edges
     prob += lpSum([edges[i][j] for j in range(n)]) <= 2  # Group of 3 max
     if names[i] in people_without_project:
-        prob += lpSum([edges[i][j] for j in range(n)]) >= 2  # People without code must be in group of 3 
+        prob += lpSum([edges[i][j] for j in range(n)]) >= 2  # People without code must be in a group of 3 
     else:
         prob += lpSum([edges[i][j] for j in range(n)]) >= 1  # Group of 2 at least
 
