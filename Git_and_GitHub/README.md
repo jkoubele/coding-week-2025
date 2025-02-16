@@ -33,8 +33,8 @@ remote: Please see https://docs.github.com/get-started/getting-started-with-git/
 fatal: Authentication failed...
 ```
 The simplest way to login is to get your personal access token (which will de-facto work as a password).
-On GitHub page, go to *your account* -> *Settings* -> *Developer Settings* ->
-Personal access tokens -> *Tokens (classic)*.
+On GitHub page, go to *your account* → *Settings* → *Developer Settings* →
+*Personal access tokens* → *Tokens (classic)*.
 
 There, you can generate new classic token. If you set the token to never expiry and 
 allow it to perform every action, it will behave as a password. 
@@ -45,3 +45,9 @@ git config credential.helper store
 ```
 This saves your credentials in plaintext in *~/.git-credentials*. 
 For more secure approaches, you can use [ssh authentication](https://docs.github.com/en/authentication/connecting-to-github-with-ssh).
+
+
+
+
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
