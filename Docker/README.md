@@ -77,4 +77,43 @@ computer.
 
 ## Creating a Docker Image from a Dockerfile
 
+So-called *Dockerfile* is a template for creating (so-called building) Docker images.
+Dockerfile is a text file, by default named *Dockerfile* (without any extension).
 
+Following is an example of a simple Dockerfile:
+
+```dockerfile
+FROM ubuntu
+RUN apt update && apt install curl unzip default-jre perl -y
+RUN curl -L -O https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.12.1.zip
+RUN unzip fastqc_v0.12.1.zip
+RUN rm fastqc_v0.12.1.zip
+ENV PATH="/FastQC:$PATH"
+```
+
+- The Dockerfile specifies the starting image by the ```FROM``` instruction;
+  here, we are starting our build from a plain Ubuntu image.
+- The ```RUN```instructions are used to run command line commands during the build. Here,
+  we are installing several tools by *apt install*, and then downloading and extracting
+  [FASTQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+  (a tool used for quality control of reads in FASTQ files).
+- The ```ENV``` instruction is used to set environment variables (here, the location
+  of the installed FASTQC tool is added to PATH).
+- For additional instruction available in Dockerfile syntax, please see
+  the [documentation](https://docs.docker.com/reference/dockerfile/).
+
+The Dockerfile described above is also saved in this repository [here](./Docker_files/FASTQC/Dockerfile).
+
+To build the Docker image, run
+
+```commandline
+docker build -t fastqc-example /path-to-folder-with-dockerfile
+```
+
+The argument ```-t```specifies the name of the newly built image.
+After a successful build, you should see the new image listed after running ```docker image ls```.
+If you now run the docker image in the interactive mode by
+
+```commandline
+docker run -it fastqc-example
+```

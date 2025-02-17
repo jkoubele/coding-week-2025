@@ -17,8 +17,8 @@ people_without_project: list[str] = []
 load_data = True
 if load_data:
     df = pd.read_csv('./example_preferences - Sheet1.tsv', delimiter='\t')
-    # people_without_project.extend(['Hans', 'David'])
-    # df = pd.read_csv('/home/jakub/Downloads/Coding Week 2025 - Code Review.tsv', delimiter='\t')
+    people_without_project.extend(['Yashna'])
+    df = pd.read_csv('/home/jakub/Downloads/Coding Week 2025 - Code Review (3).tsv', delimiter='\t')
     df['I want to review this!'] = df['I want to review this!'].fillna('').astype(str)
     names = sorted([sanitize_name(name) for name in df['Name']])
     n = len(names)
@@ -60,7 +60,7 @@ for i in range(n):
         prob += edges[i][j] == edges[j][i]  # symmetry
 
 # Change to PULP_CBC_CMD if you don't have GLPK installed
-status = prob.solve(pulp.GLPK_CMD(msg=1, options=["--tmlim", "20"]))
+status = prob.solve(pulp.GLPK_CMD(msg=1, options=["--tmlim", "30"]))
 # status = prob.solve(pulp.PULP_CBC_CMD(msg=1, timeLimit=20))
 
 
