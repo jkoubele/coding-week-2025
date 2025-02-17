@@ -180,3 +180,35 @@ laptop).
 - To synchronize your local repository with the one on GitHub, run ```git pull``` command.
     - You may also use ```git fetch``` to pull the information about changes made in the remote repository, without
       applying them to your local repository.
+
+## Working with Branches & Other People
+
+- Instead of creating commits one after the other, you may work on multiple versions (called **branches**) of your code
+  in parallel.
+  This may be especially useful if you are working on the same code with other people.
+- To list branches (and see which one is active), type
+  ```git branch```.
+- You can create new branch by ```git branch branch-name```.
+- You can switch between branches by ```git checkout branch-name```. You can also use ```git checkout```
+  with argument ```-b``` to create a new branch and automatically switch to it, by ```git checkout -b branch-name```
+- Commits are applied only to the active branch. If you create a new branch, it will be created from the last commit of
+  your current branch,
+  but then the branch's history may diverge as you create different commits in them.
+- A typical workflow is to have one main branch, usually named *main* or *master*. If you are going to add some feature
+  or restructure the code,
+  you create a dedicated branch for that. After you are done with the changes, you merge the branch into the *main*
+  branch: to do that,
+  switch back to the main branch by ```git checkout main```. Then, you merge the changes
+  by ```git merge branch-you-want-to-merge```.
+- After the merge, git will do its best to resolve the difference between branches and apply these changes to your
+  current
+  branch, creating a commit.
+    - In some cases, it will not be possible to resolve the differences automatically (this will happen if
+      both branches were modified at the same place, i.e. the same line of code). If that happens,
+      you will need to resolve the differences manually (on affected lines, decide which change is the correct one to
+      keep). Git will
+      print an error message, telling you which lines caused the merge conflict.
+- Before you merge the branch into *main*, you may create a pull request on the GitHub page. This will display
+  the changes between branches and allow you to do a code review. This is useful if you are working in a team - after
+  someone
+  adds new code, other team members review the changes and provide feedback.
