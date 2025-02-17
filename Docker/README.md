@@ -77,7 +77,7 @@ computer.
 
 ## Creating a Docker Image from a Dockerfile
 
-So-called *Dockerfile* is a template for creating (so-called building) Docker images.
+*Dockerfile* is a template for creating (so-called building) Docker images.
 Dockerfile is a text file, by default named *Dockerfile* (without any extension).
 
 Following is an example of a simple Dockerfile:
@@ -117,3 +117,12 @@ If you now run the docker image in the interactive mode by
 ```commandline
 docker run -it fastqc-example
 ```
+
+the tools installed during the build should be available in the running container.
+
+## Mounting a Folders from Host Filesystem
+
+To make folder from host computer accessible in running Docker container,
+you can mount the folder by the ```-v``` argument.
+
+For example:
