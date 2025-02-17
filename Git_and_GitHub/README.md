@@ -190,10 +190,10 @@ laptop).
   ```git branch```.
 - You can create new branch by ```git branch branch-name```.
 - You can switch between branches by ```git checkout branch-name```. You can also use ```git checkout```
-  with argument ```-b``` to create a new branch and automatically switch to it, by ```git checkout -b branch-name```
+  with argument ```-b``` to create a new branch and automatically switch to it, by ```git checkout -b branch-name```.
 - Commits are applied only to the active branch. If you create a new branch, it will be created from the last commit of
   your current branch,
-  but then the branch's history may diverge as you create different commits in them.
+  but then the branch histories may diverge as you create different commits in them.
 - A typical workflow is to have one main branch, usually named *main* or *master*. If you are going to add some feature
   or restructure the code,
   you create a dedicated branch for that. After you are done with the changes, you merge the branch into the *main*
@@ -202,7 +202,7 @@ laptop).
   by ```git merge branch-you-want-to-merge```.
 - After the merge, git will do its best to resolve the difference between branches and apply these changes to your
   current
-  branch, creating a commit.
+  branch (*main*), creating a commit.
     - In some cases, it will not be possible to resolve the differences automatically (this will happen if
       both branches were modified at the same place, i.e. the same line of code). If that happens,
       you will need to resolve the differences manually (on affected lines, decide which change is the correct one to
@@ -212,3 +212,25 @@ laptop).
   the changes between branches and allow you to do a code review. This is useful if you are working in a team - after
   someone
   adds new code, other team members review the changes and provide feedback.
+
+## Full code review
+
+Typically, pull requests are meant to do a code review of changes between two branches.
+However, with a little trick, you can create a pull request displaying the whole content of your repository,
+and use the GitHub interface to perform full code review. To do that, follow these steps (adapted
+from [this Gist](https://gist.github.com/lopezjurip/56fbe6d00f35824988dd7684e0d6dc48)):
+
+```commandline
+# Create empty branch.
+git checkout --orphan review
+git rm -rf .
+git commit --allow-empty -m "Create empty branch"
+git push --set-upstream origin review
+
+# Create `project` branch from `main` current state.
+git checkout -b project
+git merge main --allow-unrelated-histories
+git push --set-upstream origin project
+
+# Open a Pull-Request on the Github repository from `project` to `review`. Then you can perform a full-code review.
+```
