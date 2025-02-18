@@ -122,7 +122,54 @@ the tools installed during the build should be available in the running containe
 
 ## Mounting a Folders from Host Filesystem
 
-To make folder from host computer accessible in running Docker container,
-you can mount the folder by the ```-v``` argument.
+To make a folder from the host computer accessible in a running Docker container,
+you can mount the folder by the ```-v``` argument. Following the example above, we may use the FASTQC tool
+we installed to process FASTQ data from RNA-seq.
+This repository contain a [folder](./example_data) with an example *.fastq* file.
+You can run a container with a mounted folder by
 
-For example:
+```commandline
+docker run -it -v path-to-folder-on-host-computer:/data fastqc-example
+```
+
+The folder ```/data``` after the colon ```:``` in the argument ```path-to-folder-on-host-computer:/data```
+is an arbitrary name that will be used to name the folder inside the container.
+
+Inside the container, you may then run
+
+```commandline
+fastqc /data/reads.fastq
+```
+
+This should create an output of the FASTQC tool located in the mounted folder; you can access these files
+from your host computer.
+
+It can happen that the newly created files will be read-only or otherwise locked (this is because they were created the
+*root* user inside the container). You can fix that by running
+
+```commandline
+chmod -R 777 /data
+```
+
+from the Docker container.
+
+## Running Containers in a Non-interactive Way
+
+The default command executed by the Docker container is usually to run */bin/bash*. If you run the container
+interactively by using the ```-it``` argument, this is the reason why the command line (bash)
+will be open. The default command may be specified by the ```CMD``` instruction in the Dockerfile. Some
+Docker images may have a different default command - for example, the [r-base image](https://hub.docker.com/_/r-base) has
+a default command to run R.
+
+You may run a command in the non-interactive way by omitting the ```-it``` argument in the ```docker run```.
+In this case, you should provide the command that should be executed (otherwise, the container will
+terminate immediately, as it will open *bash* and find no command to be run there). For example, you may run
+```commandline
+docker run -v path-to-folder-on-host-computer:/data  fastqc-example fastqc /data/reads.fastq
+```
+This will make the *fastqc-example* container execute the command ```fastqc``` with the file */data/reads.fastq* as an argument. After that, 
+the container will terminate.
+
+It may be useful to also run the container in the detached mode by using the argument ```-d```. In this way,
+the container will not block your command line. Using the detached mode, you may create
+e.g. a script that runs multiple docker containers at once, each processing some part of your data.
