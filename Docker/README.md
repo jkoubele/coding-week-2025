@@ -112,7 +112,7 @@ docker build -t fastqc-example /path-to-folder-with-dockerfile
 
 The argument ```-t```specifies the name of the newly built image.
 After a successful build, you should see the new image listed after running ```docker image ls```.
-If you now run the docker image in the interactive mode by
+If you now run the Docker image in the interactive mode by
 
 ```commandline
 docker run -it fastqc-example
@@ -173,3 +173,6 @@ the container will terminate.
 It may be useful to also run the container in the detached mode by using the argument ```-d```. In this way,
 the container will not block your command line. Using the detached mode, you may create
 e.g. a script that runs multiple docker containers at once, each processing some part of your data.
+
+## Running R-studio Server from Docker
+
