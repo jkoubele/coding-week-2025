@@ -221,7 +221,3 @@ by
 ```commandline
 docker build -t custom_bioconductor ./Docker_files/custom_bioconductor
 ```
-
-```
-
-
