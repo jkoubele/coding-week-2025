@@ -153,21 +153,28 @@ chmod -R 777 /data
 
 from the Docker container.
 
-## Running Containers in a Non-interactive Way
+- For an example of more complex Dockerfile with several bioinformatics tools, you may take a
+  look [here](https://github.com/jkoubele/pol-II-analysis/tree/391c78d5d3a356c25adcbf35db032b741e5dfcf0/dockerfiles/bioinfo_tools).
+
+## Running Containers in a Non-Interactive Way
 
 The default command executed by the Docker container is usually to run */bin/bash*. If you run the container
 interactively by using the ```-it``` argument, this is the reason why the command line (bash)
 will be open. The default command may be specified by the ```CMD``` instruction in the Dockerfile. Some
-Docker images may have a different default command - for example, the [r-base image](https://hub.docker.com/_/r-base) has
+Docker images may have a different default command - for example, the [r-base image](https://hub.docker.com/_/r-base)
+has
 a default command to run R.
 
 You may run a command in the non-interactive way by omitting the ```-it``` argument in the ```docker run```.
 In this case, you should provide the command that should be executed (otherwise, the container will
 terminate immediately, as it will open *bash* and find no command to be run there). For example, you may run
+
 ```commandline
 docker run -v path-to-folder-on-host-computer:/data  fastqc-example fastqc /data/reads.fastq
 ```
-This will make the *fastqc-example* container execute the command ```fastqc``` with the file */data/reads.fastq* as an argument. After that, 
+
+This will make the *fastqc-example* container execute the command ```fastqc``` with the file */data/reads.fastq* as an
+argument. After that,
 the container will terminate.
 
 It may be useful to also run the container in the detached mode by using the argument ```-d```. In this way,
@@ -175,4 +182,46 @@ the container will not block your command line. Using the detached mode, you may
 e.g. a script that runs multiple docker containers at once, each processing some part of your data.
 
 ## Running R-studio Server from Docker
+
+Besides mounting a folder, a Docker container can also communicate with the host machine
+by running a server inside the container and publishing the port with the server to the host, by using the
+argument ```-p```
+in the ```docker run``` command.
+
+This can be used to e.g. run the R-Studio server inside the docker and connect to its port via a browser.
+The Bioconductor provides a Docker image with already installed R-Studio, as well as many useful R packages.
+
+You can run a container from that image by
+
+```commandline
+docker run -it -e PASSWORD=pass -e USERID=$(id -u) -e GROUPID=$(id -g) -p 8787:8787 -v ./example_data:/data bioconductor/bioconductor
+```
+
+If you didn't pull the ```bioconductor/bioconductor``` image from the DockerHub before, Docker will do it now.
+We will now discuss the arguments used in the command above:
+
+- The argument ```-p 8787:8787``` maps port 8787 from the running container to port 8787 on your host machine. You can
+  also use different ports on your host machine (e.g. if 8787 is already occupied), for example  ```-p 9000:8787``` will
+  use port 9000 on the host computer.
+- The argument ```-e PASSWORD=pass```sets an environment variable used to log in to the R-Studio server. (If you leave
+  it empty, the server will generate
+  a random password instead and print it to the console.)
+- The arguments ```-e USERID=$(id -u) -e GROUPID=$(id -g)``` set the user/group IDs inside the container
+  to be the same as the ones on the host machine. This solves some extra issues with file permissions/ownership
+  which are caused by the fact that rstudio runs as user ```rstudio``` instead of ```root```.
+- As in the example above, the ```-v ./example_data:/data``` will mount the folder ```./example_data``` from the host
+  to be visible as ```/data``` inside the container (feel free to change both of these folders according to your needs).
+
+In case you would need to install additional packages or applications, you can do that by creating a Dockerfile that
+starts from the
+*bioconductor/bioconductor* image. An example Dockerfile is
+provided [here,](./Docker_files/custom_bioconductor/Dockerfile) and you can build it
+by
+
+```commandline
+docker build -t custom_bioconductor ./Docker_files/custom_bioconductor
+```
+
+```
+
 
