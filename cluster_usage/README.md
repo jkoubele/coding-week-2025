@@ -32,8 +32,8 @@ done on the management server directly.
 Both the *nmgmt* server and the computational nodes have mounted folders from our filesystem.
 However, the paths differ from the ones on workstations:
 
-- `/cellfile/data/public` is mounted as `/data/public` on the cluster
-- `/cellfile/cellnet` is mounted as `/cellnet` on the cluster
+- `/cellfile/datapublic` is mounted as `/data/public` on the cluster.
+- `/cellfile/cellnet` is mounted as `/cellnet` on the cluster.
 
 When using the cluster, you need to change all paths used in your scripts accordingly.
 
