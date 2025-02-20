@@ -130,7 +130,6 @@ sbatch single_cell_processing_job.sh -i /data/public/jkoubele/coding-week-2025/c
 ```
 squeue
 ```
-
 6. We may run a loop over all our samples, submitting each to be processed by one *sbatch* job.
 
 
