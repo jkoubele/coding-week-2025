@@ -85,5 +85,12 @@ docker load -i docker-image-path.tar
 5. The image should be now available on the cluster node; you can verify it by ```docker image ls```.
 You can use the Docker image to run Docker containers to process your data.
 
+### Using Sbatch
+
+The main benefit of the cluster is that it allows to submit many jobs and run them in parallel. A suitable
+approach for that is to use the ```sbatch``` command rather than ```srun```. The ```sbatch``` command is
+not interactive, which is usefully for submitting many jobs at once.
+
+
 
 
